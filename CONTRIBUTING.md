@@ -18,7 +18,7 @@ Each pull request should:
 
 ## Commit Messages
 
-Use short imperative commit messages.
+Use short imperative commit messages of 50 characters or fewer.
 
 Examples:
 - Add expense form
