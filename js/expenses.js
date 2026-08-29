@@ -12,7 +12,7 @@ function calculateTotal() {
         0
     );
 
-    totalAmount.textContent = ₹${total.toFixed(2)};
+    totalAmount.textContent = `₹${total.toFixed(2)}`;
 }
 
 function displayExpenses() {
@@ -22,10 +22,12 @@ function displayExpenses() {
         const listItem = document.createElement("li");
 
         listItem.textContent =
-            ${expense.name} - ₹${expense.amount.toFixed(2)};
+            `${expense.name} - ₹${expense.amount.toFixed(2)}`;
 
         expenseList.appendChild(listItem);
     });
+
+    filterExpenses();
 }
 
 expenseForm.addEventListener("submit", (event) => {
@@ -34,10 +36,10 @@ expenseForm.addEventListener("submit", (event) => {
     const name = expenseName.value.trim();
     const amount = Number(expenseAmount.value);
 
-   if (!name || !Number.isFinite(amount) || amount <= 0) {
-    alert("Please enter a valid expense name and amount.");
-    return;
-}
+    if (!name || !Number.isFinite(amount) || amount <= 0) {
+        alert("Please enter a valid expense name and amount.");
+        return;
+    }
 
     expenses.push({
         name: name,
