@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.total-section {
+    margin-bottom: 20px;
+}
+
+#totalAmount {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input,
+button {
+    padding: 10px;
+}
+
+#expenseList {
+    padding: 0;
+    list-style: none;
+}
+
+#expenseList li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
