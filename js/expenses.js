@@ -34,9 +34,10 @@ expenseForm.addEventListener("submit", (event) => {
     const name = expenseName.value.trim();
     const amount = Number(expenseAmount.value);
 
-    if (!name || amount <= 0) {
-        return;
-    }
+   if (!name || !Number.isFinite(amount) || amount <= 0) {
+    alert("Please enter a valid expense name and amount.");
+    return;
+}
 
     expenses.push({
         name: name,
