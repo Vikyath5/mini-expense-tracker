@@ -25,8 +25,18 @@ function displayExpenses() {
         listItem.textContent =
             `${expense.name} - ₹${expense.amount.toFixed(2)} (${expense.category})`;
 
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+
+        editButton.addEventListener("click", () => {
+            editExpense(index);
+        });
+
+        listItem.appendChild(editButton);
+
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
+
         deleteButton.addEventListener("click", () => {
             deleteExpense(index);
         });
@@ -36,6 +46,47 @@ function displayExpenses() {
     });
 
     filterExpenses();
+}
+
+function editExpense(index) {
+    const expense = expenses[index];
+
+    const newName = prompt(
+        "Enter expense name:",
+        expense.name
+    );
+
+    if (newName === null) {
+        return;
+    }
+
+    const newAmount = prompt(
+        "Enter expense amount:",
+        expense.amount
+    );
+
+    if (newAmount === null) {
+        return;
+    }
+
+    const amount = Number(newAmount);
+
+    if (
+        !newName.trim() ||
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
+        alert("Please enter a valid expense name and amount.");
+        return;
+    }
+
+    expense.name = newName.trim();
+    expense.amount = amount;
+
+    saveExpenses(expenses);
+
+    displayExpenses();
+    calculateTotal();
 }
 
 function deleteExpense(index) {
@@ -54,7 +105,11 @@ expenseForm.addEventListener("submit", (event) => {
     const amount = Number(expenseAmount.value);
     const category = expenseCategory.value;
 
-    if (!name || !Number.isFinite(amount) || amount <= 0) {
+    if (
+        !name ||
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
         alert("Please enter a valid expense name and amount.");
         return;
     }
