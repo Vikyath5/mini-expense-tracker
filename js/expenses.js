@@ -8,6 +8,7 @@ const expenseList = document.getElementById("expenseList");
 const totalAmount = document.getElementById("totalAmount");
 const expenseSummary = document.getElementById("expenseSummary");
 const expenseSort = document.getElementById("expenseSort");
+const expenseStatistics = document.getElementById("expenseStatistics");
 
 function calculateTotal() {
     const total = expenses.reduce(
@@ -38,6 +39,46 @@ function displaySummary() {
             `${category}: ₹${amount.toFixed(2)}`;
 
         expenseSummary.appendChild(listItem);
+    });
+}
+
+function displayStatistics() {
+    expenseStatistics.innerHTML = "";
+
+    if (expenses.length === 0) {
+        const listItem = document.createElement("li");
+
+        listItem.textContent = "No expenses available.";
+
+        expenseStatistics.appendChild(listItem);
+
+        return;
+    }
+
+    const amounts = expenses.map((expense) => expense.amount);
+
+    const total = amounts.reduce(
+        (sum, amount) => sum + amount,
+        0
+    );
+
+    const average = total / amounts.length;
+    const highest = Math.max(...amounts);
+    const lowest = Math.min(...amounts);
+
+    const statistics = [
+        `Number of expenses: ${expenses.length}`,
+        `Average expense: ₹${average.toFixed(2)}`,
+        `Highest expense: ₹${highest.toFixed(2)}`,
+        `Lowest expense: ₹${lowest.toFixed(2)}`
+    ];
+
+    statistics.forEach((text) => {
+        const listItem = document.createElement("li");
+
+        listItem.textContent = text;
+
+        expenseStatistics.appendChild(listItem);
     });
 }
 
@@ -82,6 +123,7 @@ function displayExpenses() {
 
     filterExpenses();
     displaySummary();
+    displayStatistics();
 }
 
 function editExpense(index) {
