@@ -7,7 +7,7 @@ const expenseCategory = document.getElementById("expenseCategory");
 const expenseList = document.getElementById("expenseList");
 const totalAmount = document.getElementById("totalAmount");
 const expenseSummary = document.getElementById("expenseSummary");
-
+const expenseSort = document.getElementById("expenseSort");
 
 function calculateTotal() {
     const total = expenses.reduce(
@@ -17,7 +17,6 @@ function calculateTotal() {
 
     totalAmount.textContent = `₹${total.toFixed(2)}`;
 }
-
 
 function displaySummary() {
     const summary = {};
@@ -42,11 +41,17 @@ function displaySummary() {
     });
 }
 
-
 function displayExpenses() {
     expenseList.innerHTML = "";
 
-    expenses.forEach((expense, index) => {
+    const sortedExpenses = sortExpenses(
+        expenses,
+        expenseSort.value
+    );
+
+    sortedExpenses.forEach((expense) => {
+        const originalIndex = expenses.indexOf(expense);
+
         const listItem = document.createElement("li");
 
         listItem.textContent =
@@ -57,18 +62,17 @@ function displayExpenses() {
         editButton.textContent = "Edit";
 
         editButton.addEventListener("click", () => {
-            editExpense(index);
+            editExpense(originalIndex);
         });
 
         listItem.appendChild(editButton);
-
 
         const deleteButton = document.createElement("button");
 
         deleteButton.textContent = "Delete";
 
         deleteButton.addEventListener("click", () => {
-            deleteExpense(index);
+            deleteExpense(originalIndex);
         });
 
         listItem.appendChild(deleteButton);
@@ -79,7 +83,6 @@ function displayExpenses() {
     filterExpenses();
     displaySummary();
 }
-
 
 function editExpense(index) {
     const expense = expenses[index];
@@ -122,7 +125,6 @@ function editExpense(index) {
     calculateTotal();
 }
 
-
 function deleteExpense(index) {
     expenses.splice(index, 1);
 
@@ -131,7 +133,6 @@ function deleteExpense(index) {
     displayExpenses();
     calculateTotal();
 }
-
 
 expenseForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -163,6 +164,7 @@ expenseForm.addEventListener("submit", (event) => {
     expenseForm.reset();
 });
 
+expenseSort.addEventListener("change", displayExpenses);
 
 displayExpenses();
 calculateTotal();
