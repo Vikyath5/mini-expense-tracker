@@ -3,6 +3,7 @@ const expenses = [];
 const expenseForm = document.getElementById("expenseForm");
 const expenseName = document.getElementById("expenseName");
 const expenseAmount = document.getElementById("expenseAmount");
+const expenseCategory = document.getElementById("expenseCategory");
 const expenseList = document.getElementById("expenseList");
 const totalAmount = document.getElementById("totalAmount");
 
@@ -22,7 +23,7 @@ function displayExpenses() {
         const listItem = document.createElement("li");
 
         listItem.textContent =
-            `${expense.name} - ₹${expense.amount.toFixed(2)}`;
+            `${expense.name} - ₹${expense.amount.toFixed(2)} (${expense.category})`;
 
         const deleteButton = document.createElement("button");
 
@@ -50,6 +51,7 @@ expenseForm.addEventListener("submit", (event) => {
 
     const name = expenseName.value.trim();
     const amount = Number(expenseAmount.value);
+    const category = expenseCategory.value;
 
     if (!name || !Number.isFinite(amount) || amount <= 0) {
         alert("Please enter a valid expense name and amount.");
@@ -58,7 +60,8 @@ expenseForm.addEventListener("submit", (event) => {
 
     expenses.push({
         name: name,
-        amount: amount
+        amount: amount,
+        category: category
     });
 
     displayExpenses();
