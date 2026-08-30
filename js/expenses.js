@@ -1,4 +1,4 @@
-const expenses = [];
+const expenses = loadExpenses();
 
 const expenseForm = document.getElementById("expenseForm");
 const expenseName = document.getElementById("expenseName");
@@ -26,7 +26,6 @@ function displayExpenses() {
             `${expense.name} - ₹${expense.amount.toFixed(2)} (${expense.category})`;
 
         const deleteButton = document.createElement("button");
-
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", () => {
             deleteExpense(index);
@@ -41,6 +40,8 @@ function displayExpenses() {
 
 function deleteExpense(index) {
     expenses.splice(index, 1);
+
+    saveExpenses(expenses);
 
     displayExpenses();
     calculateTotal();
@@ -64,8 +65,13 @@ expenseForm.addEventListener("submit", (event) => {
         category: category
     });
 
+    saveExpenses(expenses);
+
     displayExpenses();
     calculateTotal();
 
     expenseForm.reset();
 });
+
+displayExpenses();
+calculateTotal();
