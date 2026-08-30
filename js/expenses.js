@@ -6,6 +6,8 @@ const expenseAmount = document.getElementById("expenseAmount");
 const expenseCategory = document.getElementById("expenseCategory");
 const expenseList = document.getElementById("expenseList");
 const totalAmount = document.getElementById("totalAmount");
+const expenseSummary = document.getElementById("expenseSummary");
+
 
 function calculateTotal() {
     const total = expenses.reduce(
@@ -15,6 +17,31 @@ function calculateTotal() {
 
     totalAmount.textContent = `₹${total.toFixed(2)}`;
 }
+
+
+function displaySummary() {
+    const summary = {};
+
+    expenses.forEach((expense) => {
+        if (!summary[expense.category]) {
+            summary[expense.category] = 0;
+        }
+
+        summary[expense.category] += expense.amount;
+    });
+
+    expenseSummary.innerHTML = "";
+
+    Object.entries(summary).forEach(([category, amount]) => {
+        const listItem = document.createElement("li");
+
+        listItem.textContent =
+            `${category}: ₹${amount.toFixed(2)}`;
+
+        expenseSummary.appendChild(listItem);
+    });
+}
+
 
 function displayExpenses() {
     expenseList.innerHTML = "";
@@ -26,6 +53,7 @@ function displayExpenses() {
             `${expense.name} - ₹${expense.amount.toFixed(2)} (${expense.category})`;
 
         const editButton = document.createElement("button");
+
         editButton.textContent = "Edit";
 
         editButton.addEventListener("click", () => {
@@ -34,7 +62,9 @@ function displayExpenses() {
 
         listItem.appendChild(editButton);
 
+
         const deleteButton = document.createElement("button");
+
         deleteButton.textContent = "Delete";
 
         deleteButton.addEventListener("click", () => {
@@ -42,11 +72,14 @@ function displayExpenses() {
         });
 
         listItem.appendChild(deleteButton);
+
         expenseList.appendChild(listItem);
     });
 
     filterExpenses();
+    displaySummary();
 }
+
 
 function editExpense(index) {
     const expense = expenses[index];
@@ -89,6 +122,7 @@ function editExpense(index) {
     calculateTotal();
 }
 
+
 function deleteExpense(index) {
     expenses.splice(index, 1);
 
@@ -97,6 +131,7 @@ function deleteExpense(index) {
     displayExpenses();
     calculateTotal();
 }
+
 
 expenseForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -127,6 +162,7 @@ expenseForm.addEventListener("submit", (event) => {
 
     expenseForm.reset();
 });
+
 
 displayExpenses();
 calculateTotal();
